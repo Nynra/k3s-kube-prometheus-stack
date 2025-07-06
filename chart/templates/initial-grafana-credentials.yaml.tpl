@@ -2,7 +2,7 @@
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
-  name: {{ .Values.grafana.externalCert.name | quote }}
+  name: {{ .Values.kube-prometheus-stack.grafana.admin.existingSecret | quote }}
   namespace: {{ .Values.namespace | quote}}
   annotations:
     argocd.argoproj.io/sync-wave: "1"
@@ -13,12 +13,12 @@ spec:
   target:
     creationPolicy: Owner
   data:
-    - secretKey: tls.crt
+    - secretKey: username
       remoteRef:
-        key: {{ .Values.grafana.externalCert.remoteSecretName | quote }}
-        property: tls_crt
-    - secretKey: tls.key
+        key: {{ .Values.grafana.externalSecret.remoteSecretName | quote }}
+        property: {{ .Values.grafana.externalSecret.usernamePropertyName | quote }}
+    - secretKey: password
       remoteRef:
-        key: {{ .Values.grafana.externalCert.remoteSecretName | quote }}
-        property: tls_key
+        key: {{ .Values.grafana.externalSecret.remoteSecretName | quote }}
+        property: {{ .Values.grafana.externalSecret.passwordPropertyName | quote }}
 {{- end }}
