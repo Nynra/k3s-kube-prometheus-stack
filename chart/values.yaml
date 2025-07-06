@@ -24,11 +24,6 @@ kube-prometheus-stack:
     defaultDashboardsEnabled: true
     defaultDashboardsTimezone: utc
     defaultDashboardsInterval: 1m
-
-    # The secret referenced here needs to be configured in the grafana block
-    # above as it is not part of the kube-prometheus-stack chart.
-    admin: 
-      existingSecret: initial-grafana-admin-credentials
     
     # # To make Grafana persistent (Using Statefulset)
     # persistence:
