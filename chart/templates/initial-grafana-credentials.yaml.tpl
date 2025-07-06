@@ -2,7 +2,7 @@
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
-  name: {{ .Values.kube-prometheus-stack.grafana.admin.existingSecret | quote }}
+  name: {{ .Values.kube-prometheus-stack.grafana.admin.existingSecret }}
   namespace: {{ .Values.namespace | quote}}
   annotations:
     argocd.argoproj.io/sync-wave: "1"
