@@ -2,8 +2,8 @@ namespace: monitoring
 
 # This chart does not use the ingress provided by the kube-prometheus-stack chart.
 # Instead the ingress and certs are provided in the templates of this chart.
-grafana:
-  enableIngress: true
+grafanaIngress:
+  enabled: true
   ingressUrl: "grafana.example.com"
   externalCert:
     name: "grafana-example-com-tls"
@@ -11,6 +11,7 @@ grafana:
     remoteSecretStore: "kubernetes"
 
   externalSecret:
+    remoteSecretName: "grafana-initial-credentials"
     remoteSecretStore: kubernetes
     usernamePropertyName: "username"
     passwordPropertyName: "password"
@@ -29,3 +30,49 @@ kube-prometheus-stack:
     admin: 
       existingSecret: grafanainitialcredentials
     
+    # # To make Grafana persistent (Using Statefulset)
+    # persistence:
+    #   enabled: true
+    #   type: sts
+    #   storageClassName: "storageClassName"
+    #   accessModes:
+    #     - ReadWriteOnce
+    #   size: 20Gi
+    #   finalizers:
+    #     - kubernetes.io/pvc-protection
+  
+  prometheus: 
+    prometheusSpec:
+      ## Statefulset's persistent volume claim retention policy
+      ## whenDeleted and whenScaled determine whether
+      ## statefulset's PVCs are deleted (true) or retained (false)
+      ## on scaling down and deleting statefulset, respectively.
+      ## Requires Kubernetes version 1.27.0+.
+      ## Ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#persistentvolumeclaim-retention
+      persistentVolumeClaimRetentionPolicy: {}
+
+      ## Interval between consecutive scrapes.
+      ## Defaults to 30s.
+      ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/release-0.44/pkg/prometheus/promcfg.go#L180-L183
+      scrapeInterval: "30s"
+
+      ## Number of seconds to wait for target to respond before erroring
+      scrapeTimeout: ""
+
+      ## EnableAdminAPI enables Prometheus the administrative HTTP API which includes functionality such as deleting time series.
+      ## This is disabled by default.
+      ## ref: https://prometheus.io/docs/prometheus/latest/querying/api/#tsdb-admin-apis
+      enableAdminAPI: false
+
+      ## Prometheus StorageSpec for persistent data
+      ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/platform/storage.md
+      storageSpec: {}
+      ## Using PersistentVolumeClaim
+      #  volumeClaimTemplate:
+      #    spec:
+      #      storageClassName: gluster
+      #      accessModes: ["ReadWriteOnce"]
+      #      resources:
+      #        requests:
+      #          storage: 50Gi
+      #      selector: {}
