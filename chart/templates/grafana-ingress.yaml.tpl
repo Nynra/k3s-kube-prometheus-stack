@@ -3,7 +3,7 @@ apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: grafana-ingress
-  namespace: {{ .Values.namespace }}
+  namespace: {{ .Values.namespace | quote }}
   annotations:
     kubernetes.io/ingress.class: traefik-external
     argocd.argoproj.io/sync-wave: "2"
@@ -11,7 +11,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`{{ .Values.grafanaIngress.ingressUrl }}`)
+    - match: Host(`{{ .Values.grafanaIngress.ingressUrl | quote }}`)
       kind: Rule
       services:
         - name: prometheus-grafana
@@ -23,5 +23,5 @@ spec:
           #     secure: true
           #     sameSite: none
   tls:
-    secretName: {{ .Values.grafanaIngress.externalCert.name }}
+    secretName: {{ .Values.grafanaIngress.externalCert.name | quote }}
 {{- end }}
