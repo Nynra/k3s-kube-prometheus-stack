@@ -28,5 +28,5 @@ kube-prometheus-stack:
     # The secret referenced here needs to be configured in the grafana block
     # above as it is not part of the kube-prometheus-stack chart.
     admin: 
-      existingSecret: grafana-initial-credentials
+      existingSecret: grafanainitialcredentials
     
