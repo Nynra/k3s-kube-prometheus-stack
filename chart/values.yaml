@@ -1,0 +1,33 @@
+namespace: monitoring 
+
+# This chart does not use the ingress provided by the kube-prometheus-stack chart.
+# Instead the ingress and certs are provided in the templates of this chart.
+grafana:
+  enableIngress: true
+  ingressUrl: "grafana.example.com"
+  externalCert:
+    name: "grafana-example-com-tls"
+    remoteSecretName: "grafana-example-com-tls"
+    remoteSecretStore: "kubernetes"
+
+  externalSecret:
+    name: initial-grafana-admin-credentials
+    remoteSecretName: "initial-grafana-admin-credentials"
+    remoteSecretStore: kubernetes
+    usernamePropertyName: "username"
+    passwordPropertyName: "password"
+
+kube-prometheus-stack:
+  grafana:
+    # Grafana is a dependancy of the kube-prometheus-stack chart, so we can configure it here
+    # and all values will be directed towards the grafana chart.
+    enabled: true
+    defaultDashboardsEnabled: true
+    defaultDashboardsTimezone: utc
+    defaultDashboardsInterval: 1m
+
+    # The secret referenced here needs to be configured in the grafana block
+    # above as it is not part of the kube-prometheus-stack chart.
+    admin: 
+      existingSecret: grafana-initial-credentials
+    
