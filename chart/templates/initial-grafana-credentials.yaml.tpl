@@ -1,4 +1,5 @@
 {{- if .Values.grafana.enableIngress  }}
+---
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
