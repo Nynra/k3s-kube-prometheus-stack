@@ -11,7 +11,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`{{ .Values.grafanaIngress.ingressUrl | quote }}`)
+    - match: Host(`{{ .Values.grafanaIngress.ingressUrl }}`)
       kind: Rule
       services:
         - name: prometheus-grafana

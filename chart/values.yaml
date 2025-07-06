@@ -10,12 +10,6 @@ grafanaIngress:
     remoteSecretName: "grafana-example-com-tls"
     remoteSecretStore: "kubernetes"
 
-  externalSecret:
-    remoteSecretName: "grafana-initial-credentials"
-    remoteSecretStore: kubernetes
-    usernamePropertyName: "username"
-    passwordPropertyName: "password"
-
 kube-prometheus-stack:
   grafana:
     # Grafana is a dependancy of the kube-prometheus-stack chart, so we can configure it here
