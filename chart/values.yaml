@@ -29,6 +29,9 @@ kube-prometheus-stack:
     #   size: 20Gi
     #   finalizers:
     #     - kubernetes.io/pvc-protection
+    operator: 
+      ## Which folder all dashboards in Grafana General means on Root level
+      folder: "discovered"
   
   prometheus: 
     prometheusSpec:
