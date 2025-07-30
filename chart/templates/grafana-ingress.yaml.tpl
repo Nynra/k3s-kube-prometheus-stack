@@ -26,7 +26,7 @@ metadata:
     {{- end }}
 spec:
   entryPoints:
-    - websecure
+    - {{ .Values.grafanaIngress.entrypoint | default "websecure" | quote }}
   routes:
     - match: Host(`{{ .Values.grafanaIngress.ingressUrl }}`)
       kind: Rule
@@ -40,5 +40,5 @@ spec:
           #     secure: true
           #     sameSite: none
   tls:
-    secretName: {{ .Values.grafanaIngress.externalCert.name | quote }}
+    secretName: {{ .Values.grafanaIngress.certName | quote }}
 {{- end }}{{- end }}

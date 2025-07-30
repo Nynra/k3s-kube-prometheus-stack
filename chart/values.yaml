@@ -2,6 +2,8 @@ global:
   commonLabels: {}
   commonAnnotations: {}
 
+enabled: true
+
 namespace:
   enabled: true
   name: monitoring
@@ -15,10 +17,13 @@ grafanaIngress:
   ingressUrl: "grafana.example.com"
   commonLabels: {}
   commonAnnotations: {}
+
+  certName: "grafana-example-com-tls"
   externalCert:
-    name: "grafana-example-com-tls"
-    remoteSecretName: "grafana-example-com-tls"
-    remoteSecretStore: "kubernetes"
+    enabled: true
+    secretName: "grafana-example-com-tls"
+    secretStore: "kubernetes"
+    secretStoreType: "ClusterSecretStore"
 
 kube-prometheus-stack:
   grafana:
