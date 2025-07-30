@@ -1,10 +1,20 @@
-namespace: monitoring 
+global:
+  commonLabels: {}
+  commonAnnotations: {}
+
+namespace:
+  enabled: true
+  name: monitoring
+  commonLabels: {}
+  commonAnnotations: {}
 
 # This chart does not use the ingress provided by the kube-prometheus-stack chart.
 # Instead the ingress and certs are provided in the templates of this chart.
 grafanaIngress:
   enabled: true
   ingressUrl: "grafana.example.com"
+  commonLabels: {}
+  commonAnnotations: {}
   externalCert:
     name: "grafana-example-com-tls"
     remoteSecretName: "grafana-example-com-tls"
